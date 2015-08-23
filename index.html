@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="assets/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="assets/bootstrap-theme.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Company Name</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">About</a>
+                    </li>
+                    <li>
+                        <a href="#">Services</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <div ng-app="myApp">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+      <div class="bs-callout bs-callout-info">How would you like to search?</div>
+      <div class="radio">
+      <label>
+        <input type="radio" name="angularway" id="angularway" value="angularway" ng-model="content">
+        Angular Way
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="normalway" id="normalway" value="normalway" ng-model="content">
+        Javascript
+      </label>
+    </div>
+        <div ng-show="content == 'normalway'" ng-controller="SearchController">
+            <section class="mainbar">
+                <section class="matter">
+                    <div class="container">
+                        <div class="row">
+                            <div class="widget wviolet">
+                                <div ht-widget-header title="{{$scope.title}}"></div>
+                                <div class="widget-content user">
+                                </div>
+                                <br/>
+                                <button style="float:right;margin-right:25%;" type="button" class="btn btn-primary" aria-label="Right Align">
+                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>&nbsp;<a href="favorites">Favorite</a>
+                                </button>
+                                <br/> <br/>
+                                <div class="col-md-10">
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" ng-model="enteredValue">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="button" class="btn btn-primary" ng-click="matchWord(enteredValue)">Search</button>
+                                    </div>
+                                    <br/><br/><br/>
+                                    <span class="headings">Results</span>
+                                    <br/><br/>
+                                    
+                                    <div ng-if="results" class="table-responsive col-md-8">
+                                        <table class=" table table-hover">
+                                          <tr ng-show="flag == true">
+                                          <td class="info">Title</td>
+                                          <td class="info">Publisher</td>
+                                          <td class="info">User Action</td>
+                                          
+                                        </tr>
+                                            <tr ng-repeat="result in results">
+                                                <td class="active">{{result.title}}</td>
+                                                <td class="active">{{result.publisher}}</td>
+                                                <td class="success showhand" ng-click="addFav(result.title)">Add to Favorites</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <br/>
+                                    <span ng-show="flag == false" class="noresults">No Results Found. Please try again.</span>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                </section>
+            </section>
+            </div>
+            <div ng-show="content == 'angularway'" ng-controller="SrchController">
+
+                <div class="col-md-10">
+                   <button style="float:right;margin-right:25%;" type="button" class="btn btn-primary" aria-label="Right Align">
+                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>&nbsp;<a href="favorites">Favorite</a>
+                                   </button>
+                                    <div class="col-md-5">
+
+                                    <br/>
+                                    <br/>
+                                    
+                                        <input type="text" class="form-control" ng-model="search">
+                                    </div>
+                                    
+                                   
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <span class="headings">Results</span>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <div ng-show="search.length > 0 && filtered.length > 0">
+                                       <table class=" table table-hover">
+                                        <tr>
+                                        <td class="info">Title</td>
+                                          <td class="info">Publisher</td>
+                                          <td class="info">User Action</td>
+                                          
+                                        </tr>
+                                    <tr ng-repeat="item in filtered  = (data | filter:search)">
+                                        
+                                           
+                                                <td class="active">{{item.title}}</td>
+                                                <td class="active">{{item.publisher}}</td>
+                                                <td class="success showhand" ng-click="addFav(item.title)">Add to Favorites</td>
+                                            
+                                        
+                                    </tr>
+                                    </table>
+                                  </div>
+                                    <div ng-if="results" class="table-responsive col-md-8">
+                                        <table class=" table table-hover">
+                                            <tr ng-repeat="result in results">
+                                                <td class="active">{{result.title}}</td>
+                                                <td class="info showhand" ng-click="addFav(result.title)">Add to Favorites</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <br/>
+                                    <span ng-show="flag == false" class="noresults">No Results Found. Items are case-sensitive. Please try again.</span>
+                                    <!-- <ul>
+                        <li ng-repeat="result in $scope.results">{{result.title}}</li>
+                      </ul> -->
+                                </div>
+
+
+
+                <!-- <input ng-model="search" />
+                <div ng-show="search.length > 0 && filtered.length > 0">
+                    <div ng-repeat="item in filtered  = (data | filter:search)">
+                        {{ item.title }}
+                    </div>
+                </div> -->
+            </div>
+            </div>
+        <div class="col-md-2"></div>
+        </div>
+        <script src="assets/angular.min.js"></script>
+        <script src="assets/angular-route.js"></script>
+        <script src="assets/jquery.min.js"></script>
+        <script src="assets/bootstrap.min.js"></script>
+        <script src="assets/app.js"></script>
+</body>
+
+</html>
